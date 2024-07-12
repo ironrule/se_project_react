@@ -3,12 +3,12 @@
  *=============================================**/
 // Location: Louisville, Kentucky, USA Coordinates:
 // 38.21501391310976, -85.67475727877405
-const apiConfig = {
-  apiKey: "1a46fceb87dbf3c3c19a2f20f896ecbd",
+export const coordinates = {
   latitude: "38.21501391310976",
   longitude: "-85.67475727877405",
-  apiURL: `https://api.openweathermap.org/data/2.5/weather`,
 };
+
+export const apiKey = "1a46fceb87dbf3c3c19a2f20f896ecbd";
 
 export const defaultClothingItems = [
   {
@@ -48,5 +48,3 @@ export const defaultClothingItems = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Coat.png?etag=298717ed89d5e40b1954a1831ae0bdd4",
   },
 ];
-
-export default apiConfig;
