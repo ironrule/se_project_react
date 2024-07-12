@@ -5,14 +5,9 @@ function ItemCard({ item, onCardClick }) {
     onCardClick(item);
   };
   return (
-    <li className="card">
+    <li onClick={handleCardClick} className="card">
       <h2 className="card__name">{item.name}</h2>
-      <img
-        onClick={handleCardClick}
-        className="card__image"
-        src={item.link}
-        alt={item.name}
-      />
+      <img className="card__image" src={item.link} alt={item.name} />
     </li>
   );
 }

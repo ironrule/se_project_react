@@ -3,6 +3,7 @@
   position: relative;
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 
 .card__name {
@@ -13,6 +14,7 @@
   border-radius: 4px;
   padding: 2px 12px;
   color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
 }
 
 .card__image {
