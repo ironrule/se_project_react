@@ -6,6 +6,7 @@
 - Development and Technologies
 - Hosted Site
 - Figma
+- Images
 - Future Plans
 
 **Intro**
@@ -29,6 +30,10 @@ The site is currently hosted on GitHub Pages at the following address:
 Below is the link to the Figma design for this project:
 
 [Link to the project on Figma](https://www.figma.com/file/F03bTb81Pw8IDPj5Y9rc5i/Sprint-10-%7C-WTWR)
+
+**Images**
+
+[Desktop Screenshot](./readme/website.png)
 
 **Future Plans**
 
