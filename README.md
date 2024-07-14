@@ -9,6 +9,7 @@
 - Future Plans
 
 **Intro**
+
 This project is designed to retrieve data via an online Weather API and return this information through text and graphics to the user. Based upon this weather data, clothing suggestions will be made for what may be appropriate to wear in the current weather.
 
 The first phase of the project is creating the main site and adding popup functionality for adding additional garments and viewing the existing garments. The basic layout of the site will be completed by the end of this phase. The Weather API will also be functional.
