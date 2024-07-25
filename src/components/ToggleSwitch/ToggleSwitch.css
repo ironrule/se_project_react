@@ -1,7 +1,10 @@
+.switch__wrapper {
+  margin-left: auto;
+}
+
 .switch {
   display: flex;
   position: relative;
-  margin: 0 0 0 auto;
 }
 
 .switch__box {
@@ -11,6 +14,14 @@
   height: 28px;
   appearance: none;
   cursor: pointer;
+}
+
+.switch__wrapper:hover .switch__slider-F {
+  left: 2px;
+}
+
+.switch__wrapper:hover .switch__slider-C {
+  left: 26px;
 }
 
 .switch__slider {
@@ -27,11 +38,13 @@
 .switch__slider-C {
   top: 0px;
   left: 28px;
+  transition: 0.3s;
 }
 
 .switch__slider-F {
   top: 0px;
   left: 0px;
+  transition: 0.3s;
 }
 
 .switch__temp-C {

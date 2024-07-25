@@ -10,6 +10,12 @@
   margin: 20px 0 12px 32px;
 }
 
+.modal__footer-right {
+  font-size: 20px;
+  line-height: 24px;
+  margin: 20px 32px 0 32px;
+}
+
 .modal__weather {
   font-size: 20px;
   line-height: 24px;
@@ -21,4 +27,15 @@
   max-width: 498px;
   max-height: 610px;
   border-radius: 16px;
+}
+
+.modal__delete-item {
+  border: none;
+  color: rgba(255, 77, 0, 1);
+  background: #fff;
+}
+
+.modal__footer {
+  display: flex;
+  justify-content: space-between;
 }

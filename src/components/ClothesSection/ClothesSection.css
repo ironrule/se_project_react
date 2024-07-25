@@ -1,0 +1,17 @@
+.clothesSection {
+  font-family: "CabinetGrotesk-Bold";
+  font-size: 20px;
+  line-height: 24.8px;
+  max-width: 1015px;
+}
+
+.clothesSection__add-clothes-btn {
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.clothesSection__text {
+  display: flex;
+  gap: 20px;
+}
