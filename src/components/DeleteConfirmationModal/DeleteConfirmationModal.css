@@ -1,0 +1,40 @@
+.deleteModal__content {
+  max-width: 670px;
+  padding: 60px 0 60px 0;
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0;
+  background-color: white;
+  position: relative;
+  border-radius: 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.deleteModal__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.deleteModal__warning-text {
+  margin: 0;
+}
+
+.deleteModal__submit {
+  border: none;
+  background-color: white;
+  color: rgba(255, 77, 0, 1);
+  margin: 40px 0 24px 0;
+  width: 150px;
+}
+
+.deleteModal__cancel {
+  border: none;
+  background-color: white;
+  color: black;
+}

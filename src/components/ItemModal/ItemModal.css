@@ -33,6 +33,7 @@
   border: none;
   color: rgba(255, 77, 0, 1);
   background: #fff;
+  cursor: pointer;
 }
 
 .modal__footer {

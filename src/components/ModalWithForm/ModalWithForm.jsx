@@ -5,9 +5,9 @@ function ModalWithForm({
   children,
   buttonText,
   title,
-  activeModal,
   isOpen,
   handleClose,
+  handleSubmit,
 }) {
   /**============================================
    **     Modal Close by Mouse Click Outside
@@ -60,9 +60,14 @@ function ModalWithForm({
       <div className="modal__content">
         <h2 className="modal__title">{title}</h2>
         <button onClick={handleClose} type="button" className="modal__close" />
-        <form className="modal__form" id="modal__form" name="modal-form">
+        <form
+          className="modal__form"
+          id="modal__form"
+          name="modal-form"
+          onSubmit={handleSubmit}
+        >
           {children}
-          <button type="submit" className="modal__submit" disabled>
+          <button type="submit" className="modal__submit">
             {buttonText}
           </button>
         </form>

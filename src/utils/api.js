@@ -1,11 +1,11 @@
 const baseUrl = "http://localhost:3001";
 
 export function getClothingItems() {
-  return request(`${baseUrl}/items`);
+  return request("/items");
 }
 
-export function request(baseUrl, options) {
-  return fetch(baseUrl, options).then(checkResponse);
+export function request(urlLocation, options) {
+  return fetch(baseUrl + urlLocation, options).then(checkResponse);
 }
 
 export function checkResponse(res) {
@@ -21,7 +21,7 @@ export function addClothingItem(item) {
 }
 
 export function deleteClothingItem(itemID) {
-  return request(`${baseUrl}/items/${itemID}`, {
+  return request(`/items/${itemID}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   });
