@@ -119,3 +119,15 @@
   background: rgba(0, 0, 0, 0.3);
   cursor: not-allowed;
 }
+
+.modal__input-error {
+  color: red;
+  font-size: 12px;
+  opacity: 0;
+  max-width: 350px;
+  max-height: 0px;
+}
+
+.modal__error_visible {
+  opacity: 1;
+}

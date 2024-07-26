@@ -4,15 +4,10 @@ import "./App.css";
 import Header from "../Header/Header.jsx";
 import Main from "../Main/Main.jsx";
 import Footer from "../Footer/Footer.jsx";
-import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import { coordinates, apiKey } from "../../utils/constants.js";
-import {
-  getClothingItems,
-  addClothingItem,
-  deleteClothingItem,
-} from "../../utils/api.js";
+import { getClothingItems, deleteClothingItem } from "../../utils/api.js";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi.js";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureContext.js";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
@@ -46,8 +41,14 @@ function App() {
   };
 
   const handleDeleteConfirmed = (selectedCard) => {
-    deleteClothingItem(selectedCard._id).catch(console.error);
-    closeActiveModal();
+    deleteClothingItem(selectedCard._id)
+      .then(() => {
+        setClothingItems((items) =>
+          items.filter((item) => item._id !== selectedCard._id)
+        );
+        closeActiveModal();
+      })
+      .catch(console.error);
   };
 
   const handleToggleSwitchChange = () => {
@@ -106,6 +107,7 @@ function App() {
         <AddItemModal
           isOpen={activeModal === "add-garment"}
           handleClose={closeActiveModal}
+          addItem={setClothingItems}
         />
         <ItemModal
           activeModal={activeModal}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { addClothingItem } from "../../utils/api";
 
-function AddItemModal({ isOpen, handleClose }) {
+function AddItemModal({ isOpen, handleClose, addItem }) {
   const [name, setName] = useState("");
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -22,10 +22,15 @@ function AddItemModal({ isOpen, handleClose }) {
     e.preventDefault();
     const newItem = {
       name: name,
-      imageUrl: imageUrl,
       weather: weatherType,
+      imageUrl: imageUrl,
     };
-    addClothingItem(newItem).then(handleClose).catch(console.error);
+    addClothingItem(newItem)
+      .then((item) => {
+        addItem((items) => [...items, item]);
+      })
+      .then(handleClose)
+      .catch(console.error);
   };
 
   return (

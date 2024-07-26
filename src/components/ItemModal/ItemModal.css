@@ -4,6 +4,10 @@
   border-radius: 16px 16px 0 0;
 }
 
+.modal_opened {
+  visibility: visible;
+}
+
 .modal__caption {
   font-size: 20px;
   line-height: 24px;
@@ -23,10 +27,14 @@
 }
 
 .modal__content_type_image {
+  background-color: white;
+  position: relative;
   padding: 0;
   max-width: 498px;
   max-height: 610px;
   border-radius: 16px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .modal__delete-item {
