@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header.jsx";
@@ -7,7 +7,11 @@ import Footer from "../Footer/Footer.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import { coordinates, apiKey } from "../../utils/constants.js";
-import { getClothingItems, deleteClothingItem } from "../../utils/api.js";
+import {
+  getClothingItems,
+  addClothingItem,
+  deleteClothingItem,
+} from "../../utils/api.js";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi.js";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureContext.js";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
@@ -31,9 +35,42 @@ function App() {
     setActiveModal("");
   };
 
+  const ref = useRef(null);
+  const handleOutsideClick = useCallback(
+    (e) => {
+      if (e.target.classList.contains("modal_opened")) {
+        closeActiveModal();
+      }
+    },
+    [closeActiveModal, ref]
+  );
+
+  useEffect(() => {
+    if (!activeModal) return;
+    const handleEscClose = (e) => {
+      if (e.key === "Escape") {
+        closeActiveModal();
+      }
+    };
+    document.addEventListener("keydown", handleEscClose);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [activeModal]);
+
   const handleCardClick = (card) => {
     setActiveModal("preview");
     setSelectedCard(card);
+  };
+
+  const handleAddItemSubmit = (newItem) => {
+    addClothingItem(newItem)
+      .then((item) => {
+        setClothingItems((items) => [item, ...items]);
+      })
+      .catch(console.error)
+      .then(closeActiveModal);
   };
 
   const handleDeleteClick = () => {
@@ -107,19 +144,22 @@ function App() {
         <AddItemModal
           isOpen={activeModal === "add-garment"}
           handleClose={closeActiveModal}
-          addItem={setClothingItems}
+          handleAddItemSubmit={handleAddItemSubmit}
+          handleOutsideClick={handleOutsideClick}
         />
         <ItemModal
           activeModal={activeModal}
           card={selectedCard}
           handleClose={closeActiveModal}
           handleDeleteClick={handleDeleteClick}
+          handleOutsideClick={handleOutsideClick}
         />
         <DeleteConfirmationModal
           card={selectedCard}
           handleClose={closeActiveModal}
           isOpen={activeModal === "deleteConfirmation"}
           handleSubmit={handleDeleteConfirmed}
+          handleOutsideClick={handleOutsideClick}
         />
       </CurrentTemperatureUnitContext.Provider>
     </div>
