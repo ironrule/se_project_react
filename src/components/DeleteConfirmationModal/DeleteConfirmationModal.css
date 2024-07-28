@@ -31,10 +31,12 @@
   color: rgba(255, 77, 0, 1);
   margin: 40px 0 24px 0;
   width: 150px;
+  cursor: pointer;
 }
 
 .deleteModal__cancel {
   border: none;
   background-color: white;
   color: black;
+  cursor: pointer;
 }

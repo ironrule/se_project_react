@@ -27,6 +27,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const handleAddClick = () => {
     setActiveModal("add-garment");
   };
@@ -65,12 +66,14 @@ function App() {
   };
 
   const handleAddItemSubmit = (newItem) => {
+    setIsLoading(true);
     addClothingItem(newItem)
       .then((item) => {
         setClothingItems((items) => [item, ...items]);
       })
       .catch(console.error)
-      .then(closeActiveModal);
+      .then(closeActiveModal)
+      .finally(setIsLoading(false));
   };
 
   const handleDeleteClick = () => {
@@ -78,6 +81,7 @@ function App() {
   };
 
   const handleDeleteConfirmed = (selectedCard) => {
+    setIsLoading(true);
     deleteClothingItem(selectedCard._id)
       .then(() => {
         setClothingItems((items) =>
@@ -85,7 +89,8 @@ function App() {
         );
         closeActiveModal();
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(setIsLoading(false));
   };
 
   const handleToggleSwitchChange = () => {
@@ -160,6 +165,7 @@ function App() {
           isOpen={activeModal === "deleteConfirmation"}
           handleSubmit={handleDeleteConfirmed}
           handleOutsideClick={handleOutsideClick}
+          buttonText={isLoading ? "Saving..." : "Saved"}
         />
       </CurrentTemperatureUnitContext.Provider>
     </div>

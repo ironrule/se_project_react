@@ -12,6 +12,7 @@ function AddItemModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     handleAddItemSubmit(values);
+    e.target.reset();
   };
 
   return (

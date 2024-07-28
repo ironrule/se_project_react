@@ -1,6 +1,14 @@
 import "./DeleteConfirmationModal.css";
+import { useState } from "react";
 
-function DeleteConfirmationModal({ card, handleClose, isOpen, handleSubmit }) {
+function DeleteConfirmationModal({
+  card,
+  handleClose,
+  isOpen,
+  handleSubmit,
+  buttonText,
+}) {
+  const [submitText, setSubmitText] = useState("Yes, delete item");
   return (
     <div className={`modal ${isOpen && "modal_opened"}`}>
       <div className="deleteModal__content">
@@ -16,10 +24,12 @@ function DeleteConfirmationModal({ card, handleClose, isOpen, handleSubmit }) {
             type="button"
             className="deleteModal__submit"
             onClick={() => {
+              setSubmitText(buttonText);
               handleSubmit(card);
+              setSubmitText("Yes, delete item");
             }}
           >
-            Yes, delete item
+            {submitText}
           </button>
           <button
             type="button"
