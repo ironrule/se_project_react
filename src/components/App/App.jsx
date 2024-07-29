@@ -72,8 +72,12 @@ function App() {
         setClothingItems((items) => [item, ...items]);
       })
       .catch(console.error)
-      .then(closeActiveModal)
-      .finally(setIsLoading(false));
+      .then(() => {
+        closeActiveModal();
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleDeleteClick = () => {
@@ -90,7 +94,9 @@ function App() {
         closeActiveModal();
       })
       .catch(console.error)
-      .finally(setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleToggleSwitchChange = () => {
