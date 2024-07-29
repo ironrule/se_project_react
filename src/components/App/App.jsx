@@ -28,6 +28,7 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const handleAddClick = () => {
     setActiveModal("add-garment");
   };
@@ -72,9 +73,7 @@ function App() {
         setClothingItems((items) => [item, ...items]);
       })
       .catch(console.error)
-      .then(() => {
-        closeActiveModal();
-      })
+      .then(closeActiveModal())
       .finally(() => {
         setIsLoading(false);
       });

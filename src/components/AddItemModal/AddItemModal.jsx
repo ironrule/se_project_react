@@ -8,23 +8,17 @@ function AddItemModal({
   handleAddItemSubmit,
   handleOutsideClick,
 }) {
-  const { values, handleChange, setValues } = useForm({
+  const initialValues = {
     name: "",
     imageUrl: "",
     weather: "",
-  });
+  };
+  const { values, handleChange, setValues } = useForm(initialValues);
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddItemSubmit(values);
-    handleFormReset();
+    Promise.resolve(handleAddItemSubmit(values)).then(setValues(initialValues));
   };
-  const handleFormReset = () => {
-    return setValues({
-      name: "",
-      imageUrl: "",
-      weather: "",
-    });
-  };
+
   return (
     <ModalWithForm
       buttonText="Add garment"
@@ -46,9 +40,7 @@ function AddItemModal({
           minLength="1"
           maxLength="40"
           value={values.name}
-          onChange={(e) => {
-            handleChange(e);
-          }}
+          onChange={handleChange}
         />
         <span
           className="modal__input-error modal__card-error"
@@ -65,9 +57,7 @@ function AddItemModal({
           placeholder="Image URL"
           required
           value={values.imageUrl}
-          onChange={(e) => {
-            handleChange(e);
-          }}
+          onChange={handleChange}
         />
         <span
           className="modal__input-error modal__card-error"
@@ -84,9 +74,7 @@ function AddItemModal({
             id="hot"
             checked={values.weather === "hot"}
             value="hot"
-            onChange={(e) => {
-              handleChange(e);
-            }}
+            onChange={handleChange}
             required
           />
           <span>Hot</span>
@@ -99,9 +87,7 @@ function AddItemModal({
             id="warm"
             checked={values.weather === "warm"}
             value="warm"
-            onChange={(e) => {
-              handleChange(e);
-            }}
+            onChange={handleChange}
           />
           <span>Warm</span>
         </label>
@@ -113,9 +99,7 @@ function AddItemModal({
             id="cold"
             checked={values.weather === "cold"}
             value="cold"
-            onChange={(e) => {
-              handleChange(e);
-            }}
+            onChange={handleChange}
           />
           <span>Cold</span>
         </label>
