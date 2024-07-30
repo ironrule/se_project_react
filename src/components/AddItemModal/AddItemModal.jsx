@@ -1,12 +1,11 @@
 import React from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { addClothingItem } from "../../utils/api";
 import { useForm } from "../../hooks/useForm";
 
 function AddItemModal({
   isOpen,
   handleClose,
-  handleAddItemLocal,
+  handleAddItem,
   handleOutsideClick,
 }) {
   const initialFormValues = {
@@ -18,14 +17,13 @@ function AddItemModal({
   const { formValues, handleFormChange, setFormValues } =
     useForm(initialFormValues);
 
+  const resetForm = () => {
+    setFormValues(initialFormValues);
+  };
+
   const handleAddItemSubmit = (e) => {
     e.preventDefault();
-    addClothingItem(formValues)
-      .then((item) => {
-        handleAddItemLocal(item);
-        setFormValues(initialFormValues);
-      })
-      .catch(console.error);
+    handleAddItem(formValues, resetForm);
   };
 
   return (

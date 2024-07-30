@@ -7,7 +7,11 @@ import Footer from "../Footer/Footer.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import { coordinates, apiKey } from "../../utils/constants.js";
-import { getClothingItems, deleteClothingItem } from "../../utils/api.js";
+import {
+  getClothingItems,
+  addClothingItem,
+  deleteClothingItem,
+} from "../../utils/api.js";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi.js";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureContext.js";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
@@ -28,9 +32,14 @@ function App() {
     setActiveModal("add-garment");
   };
 
-  const handleAddItemLocal = (newItem) => {
-    setClothingItems((prevItems) => [newItem, ...prevItems]);
-    closeActiveModal();
+  const handleAddItem = (newItem, resetForm) => {
+    addClothingItem(newItem)
+      .then((newItem) => {
+        setClothingItems((prevItems) => [newItem, ...prevItems]);
+        closeActiveModal();
+        resetForm();
+      })
+      .catch(console.error);
   };
 
   const closeActiveModal = () => {
@@ -141,7 +150,7 @@ function App() {
         <AddItemModal
           isOpen={activeModal === "add-garment"}
           handleClose={closeActiveModal}
-          handleAddItemLocal={handleAddItemLocal}
+          handleAddItem={handleAddItem}
           handleOutsideClick={handleOutsideClick}
         />
         <ItemModal

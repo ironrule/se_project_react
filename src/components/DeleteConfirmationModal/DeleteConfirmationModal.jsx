@@ -6,11 +6,15 @@ function DeleteConfirmationModal({
   handleClose,
   isOpen,
   handleSubmit,
+  handleOutsideClick,
   buttonText,
 }) {
   const [submitText, setSubmitText] = useState("Yes, delete item");
   return (
-    <div className={`modal ${isOpen && "modal_opened"}`}>
+    <div
+      className={`modal ${isOpen && "modal_opened"}`}
+      onClick={handleOutsideClick}
+    >
       <div className="deleteModal__content">
         <button onClick={handleClose} type="button" className="modal__close" />
         <div className="deleteModal__text">
