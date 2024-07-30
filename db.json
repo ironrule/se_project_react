@@ -77,6 +77,24 @@
       "name": "T-Shirt",
       "weather": "hot",
       "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/T-Shirt.png?etag=44ed1963c44ab19cd2f5011522c5fc09"
+    },
+    {
+      "name": "Flannel",
+      "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.M_5_PkOz0E_RrrRt68WkgAHaHa%26pid%3DApi&f=1&ipt=815f2461a3121588d122837465922b4852afee25cd1f0cdc3e8bb065c07e33f8&ipo=images",
+      "weather": "cold",
+      "_id": 17
+    },
+    {
+      "name": "Flannel",
+      "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.M_5_PkOz0E_RrrRt68WkgAHaHa%26pid%3DApi&f=1&ipt=815f2461a3121588d122837465922b4852afee25cd1f0cdc3e8bb065c07e33f8&ipo=images",
+      "weather": "cold",
+      "_id": 18
+    },
+    {
+      "name": "Flannel",
+      "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.M_5_PkOz0E_RrrRt68WkgAHaHa%26pid%3DApi&f=1&ipt=815f2461a3121588d122837465922b4852afee25cd1f0cdc3e8bb065c07e33f8&ipo=images",
+      "weather": "cold",
+      "_id": 19
     }
   ]
 }

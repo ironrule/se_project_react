@@ -9,6 +9,7 @@
   border: none;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.6);
+  background-color: #f3f3f3;
 }
 
 .clothesSection__text {

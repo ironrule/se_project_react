@@ -7,16 +7,11 @@ import Footer from "../Footer/Footer.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import { coordinates, apiKey } from "../../utils/constants.js";
-import {
-  getClothingItems,
-  addClothingItem,
-  deleteClothingItem,
-} from "../../utils/api.js";
+import { getClothingItems, deleteClothingItem } from "../../utils/api.js";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi.js";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureContext.js";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal.jsx";
-import { useForm } from "../../hooks/useForm";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -29,17 +24,13 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const initialFormValues = {
-    name: "",
-    imageUrl: "",
-    weather: "",
-  };
-  const { formValues, handleFormChange, setFormValues } =
-    useForm(initialFormValues);
-
   const handleAddClick = () => {
     setActiveModal("add-garment");
+  };
+
+  const handleAddItemLocal = (newItem) => {
+    setClothingItems((prevItems) => [newItem, ...prevItems]);
+    closeActiveModal();
   };
 
   const closeActiveModal = () => {
@@ -73,23 +64,6 @@ function App() {
   const handleCardClick = (card) => {
     setActiveModal("preview");
     setSelectedCard(card);
-  };
-
-  const handleAddItemSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    addClothingItem(formValues)
-      .then((item) => {
-        setClothingItems((items) => [item, ...items]);
-      })
-      .catch(console.error)
-      .then(() => {
-        closeActiveModal();
-        setFormValues(initialFormValues);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   const handleDeleteClick = () => {
@@ -167,10 +141,8 @@ function App() {
         <AddItemModal
           isOpen={activeModal === "add-garment"}
           handleClose={closeActiveModal}
-          handleAddItemSubmit={handleAddItemSubmit}
+          handleAddItemLocal={handleAddItemLocal}
           handleOutsideClick={handleOutsideClick}
-          handleChange={handleFormChange}
-          formValues={formValues}
         />
         <ItemModal
           activeModal={activeModal}

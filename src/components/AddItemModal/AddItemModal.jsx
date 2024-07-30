@@ -1,14 +1,33 @@
 import React from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { addClothingItem } from "../../utils/api";
+import { useForm } from "../../hooks/useForm";
 
 function AddItemModal({
   isOpen,
   handleClose,
-  handleAddItemSubmit,
+  handleAddItemLocal,
   handleOutsideClick,
-  handleChange,
-  formValues,
 }) {
+  const initialFormValues = {
+    name: "",
+    imageUrl: "",
+    weather: "",
+  };
+
+  const { formValues, handleFormChange, setFormValues } =
+    useForm(initialFormValues);
+
+  const handleAddItemSubmit = (e) => {
+    e.preventDefault();
+    addClothingItem(formValues)
+      .then((item) => {
+        handleAddItemLocal(item);
+        setFormValues(initialFormValues);
+      })
+      .catch(console.error);
+  };
+
   return (
     <ModalWithForm
       buttonText="Add garment"
@@ -30,7 +49,7 @@ function AddItemModal({
           minLength="1"
           maxLength="40"
           value={formValues.name}
-          onChange={handleChange}
+          onChange={handleFormChange}
         />
         <span
           className="modal__input-error modal__card-error"
@@ -47,7 +66,7 @@ function AddItemModal({
           placeholder="Image URL"
           required
           value={formValues.imageUrl}
-          onChange={handleChange}
+          onChange={handleFormChange}
         />
         <span
           className="modal__input-error modal__card-error"
@@ -64,7 +83,7 @@ function AddItemModal({
             id="hot"
             checked={formValues.weather === "hot"}
             value="hot"
-            onChange={handleChange}
+            onChange={handleFormChange}
             required
           />
           <span>Hot</span>
@@ -77,7 +96,7 @@ function AddItemModal({
             id="warm"
             checked={formValues.weather === "warm"}
             value="warm"
-            onChange={handleChange}
+            onChange={handleFormChange}
           />
           <span>Warm</span>
         </label>
@@ -89,7 +108,7 @@ function AddItemModal({
             id="cold"
             checked={formValues.weather === "cold"}
             value="cold"
-            onChange={handleChange}
+            onChange={handleFormChange}
           />
           <span>Cold</span>
         </label>
