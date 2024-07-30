@@ -16,6 +16,7 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi.js";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureContext.js";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal.jsx";
+import { useForm } from "../../hooks/useForm";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -28,6 +29,14 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const initialFormValues = {
+    name: "",
+    imageUrl: "",
+    weather: "",
+  };
+  const { formValues, handleFormChange, setFormValues } =
+    useForm(initialFormValues);
 
   const handleAddClick = () => {
     setActiveModal("add-garment");
@@ -66,14 +75,18 @@ function App() {
     setSelectedCard(card);
   };
 
-  const handleAddItemSubmit = (newItem) => {
+  const handleAddItemSubmit = (e) => {
+    e.preventDefault();
     setIsLoading(true);
-    addClothingItem(newItem)
+    addClothingItem(formValues)
       .then((item) => {
         setClothingItems((items) => [item, ...items]);
       })
       .catch(console.error)
-      .then(closeActiveModal())
+      .then(() => {
+        closeActiveModal();
+        setFormValues(initialFormValues);
+      })
       .finally(() => {
         setIsLoading(false);
       });
@@ -156,6 +169,8 @@ function App() {
           handleClose={closeActiveModal}
           handleAddItemSubmit={handleAddItemSubmit}
           handleOutsideClick={handleOutsideClick}
+          handleChange={handleFormChange}
+          formValues={formValues}
         />
         <ItemModal
           activeModal={activeModal}
