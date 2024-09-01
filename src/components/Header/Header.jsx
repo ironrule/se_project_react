@@ -1,5 +1,5 @@
 import logo from "../../images/logo.svg";
-import avatar from "../../images/avatar.svg";
+// import avatar from "../../images/avatar.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch.jsx";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -30,12 +30,8 @@ function Header({ handleAddClick, weatherData }) {
         </button>
         <Link to="/profile">
           <div className="header__user-container">
-            <p className="header__username">Terrence Tegegne</p>
-            <img
-              src={avatar}
-              alt="Terrence Tegegne"
-              className="header__avatar"
-            />
+            <p className="header__username"></p>
+            <img src="" alt="" className="header__avatar" />
           </div>
         </Link>
       </div>
