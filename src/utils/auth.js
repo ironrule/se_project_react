@@ -1,27 +1,27 @@
-export const BASE_URL = "https://localhost:3001";
-
-export const register = (username, password, email) => {
-  return fetch(`${BASE_URL}/signup`, {
+import { baseUrl, request } from "./api";
+/**============================================
+ *            Registration Function
+ *=============================================**/
+export const register = ({ name, email, password, avatar }) => {
+  return request(`${baseUrl}/signup`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password, email }),
-  }).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+    body: JSON.stringify({ name, email, password, avatar }),
   });
 };
-
-export const authorize = (identifier, password) => {
-  return fetch(`${BASE_URL}/signin`, {
+/**============================================
+ *           Authorization Function
+ *=============================================**/
+export const authorize = (email, password) => {
+  return request(`${baseUrl}/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ identifier, password }),
-  }).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+    body: JSON.stringify({ email, password }),
   });
 };

@@ -1,21 +1,38 @@
 .card {
+  display: flex;
   width: 325px;
   height: 328px;
   position: relative;
-  display: flex;
   justify-content: center;
   cursor: pointer;
 }
 
-.card__name {
+.card__text-container {
+  display: flex;
   position: absolute;
   top: 15px;
+}
+
+.card__name {
   margin: 0;
   background-color: white;
   border-radius: 4px;
   padding: 2px 12px;
   color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
+}
+
+.card__like-btn {
+  background: transparent url(../../images/like.svg) no-repeat;
+  width: 20px;
+  height: 18px;
+  margin: auto 10px;
+  cursor: pointer;
+  border: none;
+}
+
+.card__like-btn_active {
+  background: transparent url(../../images/liked.svg) no-repeat;
 }
 
 .card__image {
