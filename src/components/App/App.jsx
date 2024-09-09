@@ -27,6 +27,7 @@ import RegisterModal from "../RegisterModal/RegisterModal.jsx";
 import EditProfileModal from "../EditProfileModal/EditProfileModal.jsx";
 import * as auth from "../../utils/auth.js";
 import { setToken, getToken, removeToken } from "../../utils/token.js";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -111,7 +112,7 @@ function App() {
         setIsLoggedIn(true);
         closeActiveModal();
         resetForm();
-        navigate("/profile");
+        navigate("/");
       })
       .catch(console.error);
   };
@@ -278,13 +279,15 @@ function App() {
                 <Route
                   path="/profile"
                   element={
-                    <Profile
-                      handleAddClick={handleAddClick}
-                      handleCardClick={handleCardClick}
-                      clothingItems={clothingItems}
-                      handleLogout={handleLogout}
-                      openProfileEditModal={openProfileEditModal}
-                    />
+                    <ProtectedRoute>
+                      <Profile
+                        handleAddClick={handleAddClick}
+                        handleCardClick={handleCardClick}
+                        clothingItems={clothingItems}
+                        handleLogout={handleLogout}
+                        openProfileEditModal={openProfileEditModal}
+                      />
+                    </ProtectedRoute>
                   }
                 />
                 <Route path="*" element={<Navigate to="/" replace />} />
