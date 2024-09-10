@@ -8,6 +8,8 @@ const LoginModal = ({
   isOpen,
   handleClose,
   handleOutsideClick,
+  onRegisterClick,
+  buttonText,
 }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -79,9 +81,15 @@ const LoginModal = ({
         </label>
         <div className="login-modal__submit-btn">
           <button type="submit" className="login-modal__submit">
-            Log In
+            {buttonText}
           </button>
-          or Sign Up
+          or
+          <button
+            className="login-modal__register-toggle"
+            onClick={onRegisterClick}
+          >
+            Sign Up
+          </button>
         </div>
       </form>
     </ModalWithForm>

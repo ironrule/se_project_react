@@ -7,6 +7,7 @@ function AddItemModal({
   handleClose,
   handleAddItem,
   handleOutsideClick,
+  buttonText,
 }) {
   const initialFormValues = {
     name: "",
@@ -123,7 +124,7 @@ function AddItemModal({
           </label>
         </fieldset>
         <button type="submit" className="modal__submit">
-          Add garment
+          {buttonText}
         </button>
       </form>
     </ModalWithForm>

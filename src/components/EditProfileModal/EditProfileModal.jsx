@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 import "./EditProfileModal.css";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const EditProfileModal = ({
   handleEditProfileSubmit,
   isOpen,
   handleClose,
   handleOutsideClick,
+  buttonText,
 }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleEditProfileSubmit(formValues, resetForm);
   };
 
+  const { currentUser } = useContext(CurrentUserContext);
+
   const initialFormValues = {
-    name: "",
-    avatar: "",
+    name: currentUser.name,
+    avatar: currentUser.avatar,
   };
 
   const { formValues, handleFormChange, setFormValues } =
@@ -82,7 +86,7 @@ const EditProfileModal = ({
         </label>
         <div className="edit-profile-modal__submit-btn">
           <button type="submit" className="edit-profile-modal__submit">
-            Save changes
+            {buttonText}
           </button>
         </div>
       </form>

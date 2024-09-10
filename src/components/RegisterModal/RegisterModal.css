@@ -1,6 +1,6 @@
-.register-modal__submit-btn {
+/* .register-modal__submit-btn {
   cursor: pointer;
-}
+} */
 
 .register-modal__submit {
   width: 65px;
@@ -11,5 +11,11 @@
   color: white;
   margin-top: 32px;
   margin-right: 12px;
+  cursor: pointer;
+}
+
+.register-modal__login-toggle {
+  border: none;
+  background-color: white;
   cursor: pointer;
 }

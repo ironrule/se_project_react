@@ -97,6 +97,7 @@ function App() {
     if (!email || !password) {
       return Promise.reject("Must provide email and password.");
     }
+    setIsLoading(true);
     return auth
       .authorize(email, password)
       .then((data) => {
@@ -114,7 +115,10 @@ function App() {
         resetForm();
         navigate("/");
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleLogout = () => {
@@ -124,6 +128,7 @@ function App() {
   };
 
   const handleRegistration = (registrationData, resetForm) => {
+    setIsLoading(true);
     auth
       .register(registrationData)
       .then(() => {
@@ -147,10 +152,14 @@ function App() {
         resetForm();
         navigate("/profile");
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleAddItem = (newItem, resetForm) => {
+    setIsLoading(true);
     const token = getToken();
     addClothingItem(newItem, token)
       .then((newItem) => {
@@ -158,7 +167,10 @@ function App() {
         closeActiveModal();
         resetForm();
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const closeActiveModal = () => {
@@ -170,6 +182,7 @@ function App() {
   };
 
   const handleEditProfileSubmit = ({ name, avatar }, resetForm) => {
+    setIsLoading(true);
     const token = getToken();
     editUserInfo(name, avatar, token)
       .then((user) => {
@@ -177,7 +190,10 @@ function App() {
         closeActiveModal();
         resetForm();
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const ref = useRef(null);
@@ -214,7 +230,6 @@ function App() {
   };
 
   const handleDeleteConfirmed = (selectedCard) => {
-    setIsLoading(true);
     const token = getToken();
     deleteClothingItem(selectedCard._id, token)
       .then(() => {
@@ -223,10 +238,7 @@ function App() {
         );
         closeActiveModal();
       })
-      .catch(console.error)
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .catch(console.error);
   };
 
   const handleToggleSwitchChange = () => {
@@ -299,6 +311,7 @@ function App() {
               handleClose={closeActiveModal}
               handleAddItem={handleAddItem}
               handleOutsideClick={handleOutsideClick}
+              buttonText={isLoading ? "Adding garment..." : "Add garment"}
             />
             <ItemModal
               activeModal={activeModal}
@@ -313,25 +326,29 @@ function App() {
               isOpen={activeModal === "deleteConfirmation"}
               handleSubmit={handleDeleteConfirmed}
               handleOutsideClick={handleOutsideClick}
-              buttonText={isLoading ? "Saving..." : "Saved"}
             />
             <LoginModal
               isOpen={activeModal === "login-modal"}
               handleClose={closeActiveModal}
               handleLogin={handleLogin}
               handleOutsideClick={handleOutsideClick}
+              onRegisterClick={handleRegisterClick}
+              buttonText={isLoading ? "Logging In..." : "Log In"}
             />
             <RegisterModal
               isOpen={activeModal === "register-modal"}
               handleClose={closeActiveModal}
               handleRegistration={handleRegistration}
               handleOutsideClick={handleOutsideClick}
+              onLoginClick={handleLoginClick}
+              buttonText={isLoading ? "Wait..." : "Next"}
             />
             <EditProfileModal
               isOpen={activeModal === "edit-profile-modal"}
               handleClose={closeActiveModal}
               handleEditProfileSubmit={handleEditProfileSubmit}
               handleOutsideClick={handleOutsideClick}
+              buttonText={isLoading ? "Wait..." : "Save changes"}
             />
           </div>
         </CurrentTemperatureUnitContext.Provider>
