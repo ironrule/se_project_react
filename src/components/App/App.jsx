@@ -245,19 +245,6 @@ function App() {
     if (currentTemperatureUnit === "C") setCurrentTemperatureUnit("F");
   };
 
-  /**============================================
-   *          Universal Submit Handler
-   *=============================================**/
-  function handleSubmit(request) {
-    setIsLoading(true);
-    const token = getToken();
-    request()
-      .then(handleCloseModal)
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
-  }
-  /*==================== End ====================*/
-
   useEffect(() => {
     getWeather(coordinates, apiKey)
       .then((data) => {
@@ -321,8 +308,7 @@ function App() {
             <AddItemModal
               isOpen={activeModal === "add-garment"}
               handleClose={closeActiveModal}
-              // handleAddItem={handleAddItem}
-              handleSubmit={handleSubmit}
+              handleAddItem={handleAddItem}
               handleOutsideClick={handleOutsideClick}
               buttonText={isLoading ? "Adding garment..." : "Add garment"}
             />

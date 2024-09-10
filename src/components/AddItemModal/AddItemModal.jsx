@@ -5,10 +5,9 @@ import { useForm } from "../../hooks/useForm";
 function AddItemModal({
   isOpen,
   handleClose,
-  // handleAddItem,
+  handleAddItem,
   handleOutsideClick,
   buttonText,
-  handleSubmit,
 }) {
   const initialFormValues = {
     name: "",
@@ -23,20 +22,10 @@ function AddItemModal({
     setFormValues(initialFormValues);
   };
 
-  const handleAddItem = (e, formValues, resetForm) => {
+  const handleAddItemSubmit = (e) => {
     e.preventDefault();
-    const makeRequest = () => {
-      return addClothingItem(item).then((item) => {
-        setClothingItems([item, ...clothingItems]);
-      });
-    };
-    handleSubmit(makeRequest);
+    handleAddItem(formValues, resetForm);
   };
-
-  // const handleAddItemSubmit = (e) => {
-  //   e.preventDefault();
-  //   handleAddItem(formValues, resetForm);
-  // };
 
   return (
     <ModalWithForm
@@ -50,7 +39,7 @@ function AddItemModal({
         className="modal__form"
         id="add-item-modal__form"
         name="modal-form"
-        onSubmit={handleAddItem}
+        onSubmit={handleAddItemSubmit}
       >
         <label htmlFor="modal__input-name" className="modal__label">
           Name
