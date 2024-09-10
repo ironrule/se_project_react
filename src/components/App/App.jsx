@@ -181,14 +181,13 @@ function App() {
     setActiveModal("edit-profile-modal");
   };
 
-  const handleEditProfileSubmit = ({ name, avatar }, resetForm) => {
+  const handleEditProfileSubmit = ({ name, avatar }) => {
     setIsLoading(true);
     const token = getToken();
     editUserInfo(name, avatar, token)
       .then((user) => {
         setCurrentUser(user);
         closeActiveModal();
-        resetForm();
       })
       .catch(console.error)
       .finally(() => {
@@ -245,6 +244,19 @@ function App() {
     if (currentTemperatureUnit === "F") setCurrentTemperatureUnit("C");
     if (currentTemperatureUnit === "C") setCurrentTemperatureUnit("F");
   };
+
+  /**============================================
+   *          Universal Submit Handler
+   *=============================================**/
+  function handleSubmit(request) {
+    setIsLoading(true);
+    const token = getToken();
+    request()
+      .then(handleCloseModal)
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }
+  /*==================== End ====================*/
 
   useEffect(() => {
     getWeather(coordinates, apiKey)
@@ -309,7 +321,8 @@ function App() {
             <AddItemModal
               isOpen={activeModal === "add-garment"}
               handleClose={closeActiveModal}
-              handleAddItem={handleAddItem}
+              // handleAddItem={handleAddItem}
+              handleSubmit={handleSubmit}
               handleOutsideClick={handleOutsideClick}
               buttonText={isLoading ? "Adding garment..." : "Add garment"}
             />
