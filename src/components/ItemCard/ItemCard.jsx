@@ -1,7 +1,7 @@
 import "./ItemCard.css";
 import { useContext } from "react";
-import { ClothingItemContext } from "../../contexts/ClothingItemContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { ClothingItemContext } from "../../contexts/ClothingItemContext";
 
 function ItemCard({ item, onCardClick }) {
   const { handleCardLike } = useContext(ClothingItemContext);

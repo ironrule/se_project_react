@@ -1,21 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 import "./LoginModal.css";
+import * as auth from "../../utils/auth";
+import { setToken } from "../../utils/token.js";
+import { getUserInfo } from "../../utils/api";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const LoginModal = ({
-  handleLogin,
+  handleSubmit,
   isOpen,
   handleClose,
   handleOutsideClick,
   onRegisterClick,
   buttonText,
 }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleLogin(formValues, resetForm);
-  };
-
+  const navigate = useNavigate();
+  const { setCurrentUser, setIsLoggedIn } = useContext(CurrentUserContext);
   const initialFormValues = {
     email: "",
     password: "",
@@ -24,8 +26,30 @@ const LoginModal = ({
   const { formValues, handleFormChange, setFormValues } =
     useForm(initialFormValues);
 
-  const resetForm = () => {
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    const makeRequest = () => {
+      if (!formValues.email || !formValues.password) {
+        return Promise.reject("Must provide email and password.");
+      }
+      return auth
+        .authorize(formValues.email, formValues.password)
+        .then((data) => {
+          if (data.token) {
+            setToken(data.token);
+            return getUserInfo(data.token);
+          } else {
+            return Promise.reject("Invalid email or password.");
+          }
+        })
+        .then((user) => {
+          setCurrentUser(user);
+          setIsLoggedIn(true);
+        });
+    };
+    handleSubmit(makeRequest);
     setFormValues(initialFormValues);
+    navigate("/");
   };
 
   return (
@@ -39,7 +63,7 @@ const LoginModal = ({
         className="modal__form"
         id="login-modal__form"
         name="modal-form"
-        onSubmit={handleSubmit}
+        onSubmit={handleLoginSubmit}
       >
         <label htmlFor="login-modal__input-email" className="modal__label">
           Email

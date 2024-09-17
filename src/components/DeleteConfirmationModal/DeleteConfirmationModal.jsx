@@ -1,6 +1,8 @@
+import React, { useContext } from "react";
 import "./DeleteConfirmationModal.css";
-import { useState } from "react";
-
+import { getToken } from "../../utils/token";
+import { deleteClothingItem } from "../../utils/api";
+import { ClothingItemContext } from "../../contexts/ClothingItemContext.js";
 function DeleteConfirmationModal({
   card,
   handleClose,
@@ -9,7 +11,19 @@ function DeleteConfirmationModal({
   handleOutsideClick,
   buttonText,
 }) {
-  const [submitText, setSubmitText] = useState("Yes, delete item");
+  const { setClothingItems } = useContext(ClothingItemContext);
+  const handleDeleteConfirmed = (e) => {
+    e.preventDefault();
+    const token = getToken();
+    const makeRequest = () => {
+      return deleteClothingItem(card._id, token).then(() => {
+        setClothingItems((items) =>
+          items.filter((item) => item._id !== card._id)
+        );
+      });
+    };
+    handleSubmit(makeRequest);
+  };
   return (
     <div
       className={`modal ${isOpen && "modal_opened"}`}
@@ -27,13 +41,9 @@ function DeleteConfirmationModal({
           <button
             type="button"
             className="deleteModal__submit"
-            onClick={() => {
-              setSubmitText(buttonText);
-              handleSubmit(card);
-              setSubmitText("Yes, delete item");
-            }}
+            onClick={handleDeleteConfirmed}
           >
-            {submitText}
+            {buttonText}
           </button>
           <button
             type="button"

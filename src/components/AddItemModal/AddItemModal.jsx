@@ -1,30 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
+import { addClothingItem } from "../../utils/api.js";
+import { getToken } from "../../utils/token.js";
+import { ClothingItemContext } from "../../contexts/ClothingItemContext.js";
 
 function AddItemModal({
   isOpen,
   handleClose,
-  handleAddItem,
   handleOutsideClick,
   buttonText,
+  handleSubmit,
 }) {
   const initialFormValues = {
     name: "",
     imageUrl: "",
     weather: "",
   };
-
+  const { setClothingItems } = useContext(ClothingItemContext);
   const { formValues, handleFormChange, setFormValues } =
     useForm(initialFormValues);
 
-  const resetForm = () => {
-    setFormValues(initialFormValues);
-  };
-
-  const handleAddItemSubmit = (e) => {
+  const handleAddItem = (e) => {
     e.preventDefault();
-    handleAddItem(formValues, resetForm);
+    const token = getToken();
+    const makeRequest = () => {
+      return addClothingItem(formValues, token).then((item) => {
+        setClothingItems((prevItems) => [item.data, ...prevItems]);
+      });
+    };
+    handleSubmit(makeRequest);
+    setFormValues(initialFormValues);
   };
 
   return (
@@ -39,7 +45,7 @@ function AddItemModal({
         className="modal__form"
         id="add-item-modal__form"
         name="modal-form"
-        onSubmit={handleAddItemSubmit}
+        onSubmit={handleAddItem}
       >
         <label htmlFor="modal__input-name" className="modal__label">
           Name

@@ -1,13 +1,21 @@
 import "./ClothesSection.css";
 import ItemCard from "../ItemCard/ItemCard.jsx";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+import { ClothingItemContext } from "../../contexts/ClothingItemContext.js";
 
-function ClothesSection({ handleCardClick, handleAddClick, clothingItems }) {
+function ClothesSection({ handleCardClick, handleAddClick }) {
   const { currentUser } = useContext(CurrentUserContext);
-  const clothingItemsByOwner = clothingItems.filter((clothingItem) => {
-    return clothingItem.owner === currentUser._id;
-  });
+  const { clothingItems } = useContext(ClothingItemContext);
+  const [clothingItemsByOwner, setClothingItemsByOwner] = useState([]);
+
+  useEffect(() => {
+    const filteredItems = clothingItems.filter((clothingItem) => {
+      return clothingItem.owner === currentUser._id;
+    });
+    setClothingItemsByOwner(filteredItems);
+  }, [clothingItems]);
+
   return (
     <section className="clothesSection">
       <div className="clothesSection__text">

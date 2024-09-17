@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 import "./RegisterModal.css";
+import * as auth from "../../utils/auth";
+import { setToken } from "../../utils/token";
+import { getUserInfo } from "../../utils/api";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const RegisterModal = ({
-  handleRegistration,
   isOpen,
   handleClose,
   handleOutsideClick,
   onLoginClick,
+  handleSubmit,
 }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleRegistration(formValues, resetForm);
-  };
-
+  const navigate = useNavigate();
+  const { setCurrentUser, setIsLoggedIn } = useContext(CurrentUserContext);
   const initialFormValues = {
     name: "",
     email: "",
@@ -25,8 +27,35 @@ const RegisterModal = ({
   const { formValues, handleFormChange, setFormValues } =
     useForm(initialFormValues);
 
-  const resetForm = () => {
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    const makeRequest = () => {
+      return auth
+        .register({
+          name: formValues.name,
+          email: formValues.email,
+          password: formValues.password,
+          avatar: formValues.avatar,
+        })
+        .then(() => {
+          return auth.authorize(formValues.email, formValues.password);
+        })
+        .then((data) => {
+          if (data.token) {
+            setToken(data.token);
+            return getUserInfo(data.token);
+          } else {
+            return Promise.reject("Registration failed.");
+          }
+        })
+        .then((user) => {
+          setCurrentUser(user);
+          setIsLoggedIn(true);
+        });
+    };
+    handleSubmit(makeRequest);
     setFormValues(initialFormValues);
+    navigate("/profile");
   };
 
   return (
@@ -40,7 +69,7 @@ const RegisterModal = ({
         className="modal__form"
         id="register-modal__form"
         name="modal-form"
-        onSubmit={handleSubmit}
+        onSubmit={handleRegisterSubmit}
       >
         <label htmlFor="register-modal__input-email" className="modal__label">
           Email*

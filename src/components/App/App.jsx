@@ -9,10 +9,7 @@ import Profile from "../Profile/Profile.jsx";
 import { coordinates, apiKey } from "../../utils/constants.js";
 import {
   getClothingItems,
-  addClothingItem,
-  deleteClothingItem,
   getUserInfo,
-  editUserInfo,
   addCardLike,
   removeCardLike,
 } from "../../utils/api.js";
@@ -25,8 +22,7 @@ import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmati
 import LoginModal from "../LoginModal/LoginModal.jsx";
 import RegisterModal from "../RegisterModal/RegisterModal.jsx";
 import EditProfileModal from "../EditProfileModal/EditProfileModal.jsx";
-import * as auth from "../../utils/auth.js";
-import { setToken, getToken, removeToken } from "../../utils/token.js";
+import { getToken, removeToken } from "../../utils/token.js";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
 
 function App() {
@@ -93,84 +89,10 @@ function App() {
     setActiveModal("register-modal");
   };
 
-  const handleLogin = ({ email, password }, resetForm) => {
-    if (!email || !password) {
-      return Promise.reject("Must provide email and password.");
-    }
-    setIsLoading(true);
-    return auth
-      .authorize(email, password)
-      .then((data) => {
-        if (data.token) {
-          setToken(data.token);
-          return getUserInfo(data.token);
-        } else {
-          return Promise.reject("Invalid email or password.");
-        }
-      })
-      .then((user) => {
-        setCurrentUser(user);
-        setIsLoggedIn(true);
-        closeActiveModal();
-        resetForm();
-        navigate("/");
-      })
-      .catch(console.error)
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
   const handleLogout = () => {
     removeToken();
     setIsLoggedIn(false);
     navigate("/");
-  };
-
-  const handleRegistration = (registrationData, resetForm) => {
-    setIsLoading(true);
-    auth
-      .register(registrationData)
-      .then(() => {
-        return auth.authorize(
-          registrationData.email,
-          registrationData.password
-        );
-      })
-      .then((data) => {
-        if (data.token) {
-          setToken(data.token);
-          return getUserInfo(data.token);
-        } else {
-          return Promise.reject("Registration failed.");
-        }
-      })
-      .then((user) => {
-        setCurrentUser(user);
-        setIsLoggedIn(true);
-        closeActiveModal();
-        resetForm();
-        navigate("/profile");
-      })
-      .catch(console.error)
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  const handleAddItem = (newItem, resetForm) => {
-    setIsLoading(true);
-    const token = getToken();
-    addClothingItem(newItem, token)
-      .then((newItem) => {
-        setClothingItems((prevItems) => [newItem.data, ...prevItems]);
-        closeActiveModal();
-        resetForm();
-      })
-      .catch(console.error)
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   const closeActiveModal = () => {
@@ -179,20 +101,6 @@ function App() {
 
   const openProfileEditModal = () => {
     setActiveModal("edit-profile-modal");
-  };
-
-  const handleEditProfileSubmit = ({ name, avatar }) => {
-    setIsLoading(true);
-    const token = getToken();
-    editUserInfo(name, avatar, token)
-      .then((user) => {
-        setCurrentUser(user);
-        closeActiveModal();
-      })
-      .catch(console.error)
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   const ref = useRef(null);
@@ -228,18 +136,6 @@ function App() {
     setActiveModal("deleteConfirmation");
   };
 
-  const handleDeleteConfirmed = (selectedCard) => {
-    const token = getToken();
-    deleteClothingItem(selectedCard._id, token)
-      .then(() => {
-        setClothingItems((items) =>
-          items.filter((item) => item._id !== selectedCard._id)
-        );
-        closeActiveModal();
-      })
-      .catch(console.error);
-  };
-
   const handleToggleSwitchChange = () => {
     if (currentTemperatureUnit === "F") setCurrentTemperatureUnit("C");
     if (currentTemperatureUnit === "C") setCurrentTemperatureUnit("F");
@@ -262,9 +158,25 @@ function App() {
       .catch(console.error);
   }, []);
 
+  /**============================================
+   *          Universal Submit Handler
+   *=============================================**/
+  function handleSubmit(request) {
+    setIsLoading(true);
+    request()
+      .then(closeActiveModal)
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }
+  /*==================== End ====================*/
+
   return (
-    <CurrentUserContext.Provider value={{ currentUser, isLoggedIn }}>
-      <ClothingItemContext.Provider value={{ handleCardLike }}>
+    <CurrentUserContext.Provider
+      value={{ currentUser, isLoggedIn, setIsLoggedIn, setCurrentUser }}
+    >
+      <ClothingItemContext.Provider
+        value={{ handleCardLike, clothingItems, setClothingItems }}
+      >
         <CurrentTemperatureUnitContext.Provider
           value={{ currentTemperatureUnit, handleToggleSwitchChange }}
         >
@@ -283,7 +195,6 @@ function App() {
                     <Main
                       weatherData={weatherData}
                       handleCardClick={handleCardClick}
-                      clothingItems={clothingItems}
                     />
                   }
                 />
@@ -294,7 +205,6 @@ function App() {
                       <Profile
                         handleAddClick={handleAddClick}
                         handleCardClick={handleCardClick}
-                        clothingItems={clothingItems}
                         handleLogout={handleLogout}
                         openProfileEditModal={openProfileEditModal}
                       />
@@ -308,9 +218,9 @@ function App() {
             <AddItemModal
               isOpen={activeModal === "add-garment"}
               handleClose={closeActiveModal}
-              handleAddItem={handleAddItem}
               handleOutsideClick={handleOutsideClick}
               buttonText={isLoading ? "Adding garment..." : "Add garment"}
+              handleSubmit={handleSubmit}
             />
             <ItemModal
               activeModal={activeModal}
@@ -323,31 +233,32 @@ function App() {
               card={selectedCard}
               handleClose={closeActiveModal}
               isOpen={activeModal === "deleteConfirmation"}
-              handleSubmit={handleDeleteConfirmed}
+              buttonText={isLoading ? "Deleting..." : "Yes, delete item"}
+              handleSubmit={handleSubmit}
               handleOutsideClick={handleOutsideClick}
             />
             <LoginModal
               isOpen={activeModal === "login-modal"}
               handleClose={closeActiveModal}
-              handleLogin={handleLogin}
               handleOutsideClick={handleOutsideClick}
               onRegisterClick={handleRegisterClick}
               buttonText={isLoading ? "Logging In..." : "Log In"}
+              handleSubmit={handleSubmit}
             />
             <RegisterModal
               isOpen={activeModal === "register-modal"}
               handleClose={closeActiveModal}
-              handleRegistration={handleRegistration}
               handleOutsideClick={handleOutsideClick}
               onLoginClick={handleLoginClick}
               buttonText={isLoading ? "Wait..." : "Next"}
+              handleSubmit={handleSubmit}
             />
             <EditProfileModal
               isOpen={activeModal === "edit-profile-modal"}
               handleClose={closeActiveModal}
-              handleEditProfileSubmit={handleEditProfileSubmit}
               handleOutsideClick={handleOutsideClick}
               buttonText={isLoading ? "Wait..." : "Save changes"}
+              handleSubmit={handleSubmit}
             />
           </div>
         </CurrentTemperatureUnitContext.Provider>

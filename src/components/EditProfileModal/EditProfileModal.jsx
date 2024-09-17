@@ -2,21 +2,17 @@ import React, { useContext, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 import "./EditProfileModal.css";
+import { getToken } from "../../utils/token.js";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-
+import { editUserInfo } from "../../utils/api";
 const EditProfileModal = ({
-  handleEditProfileSubmit,
   isOpen,
   handleClose,
   handleOutsideClick,
   buttonText,
+  handleSubmit,
 }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleEditProfileSubmit(formValues);
-  };
-
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   const { formValues, handleFormChange, setFormValues } = useForm({
     name: currentUser.name,
@@ -29,6 +25,17 @@ const EditProfileModal = ({
     }
   }, [isOpen]);
 
+  function handleProfileFormSubmit(e) {
+    e.preventDefault();
+    const token = getToken();
+    function makeRequest() {
+      return editUserInfo(formValues.name, formValues.avatar, token).then(
+        (user) => setCurrentUser(user)
+      );
+    }
+    handleSubmit(makeRequest);
+  }
+
   return (
     <ModalWithForm
       title="Change profile data"
@@ -40,7 +47,7 @@ const EditProfileModal = ({
         className="modal__form"
         id="edit-profile-modal__form"
         name="modal-form"
-        onSubmit={handleSubmit}
+        onSubmit={handleProfileFormSubmit}
       >
         <label
           htmlFor="edit-profile-modal__input-email"
