@@ -7,12 +7,7 @@ import Footer from "../Footer/Footer.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import { coordinates, apiKey } from "../../utils/constants.js";
-import {
-  getClothingItems,
-  getUserInfo,
-  addCardLike,
-  removeCardLike,
-} from "../../utils/api.js";
+import { getClothingItems, getUserInfo } from "../../utils/api.js";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi.js";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureContext.js";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
@@ -44,25 +39,6 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  const handleCardLike = (id, isLiked) => {
-    const token = getToken();
-    !isLiked
-      ? addCardLike(id, token)
-          .then((updatedCard) => {
-            setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
-            );
-          })
-          .catch(console.error)
-      : removeCardLike(id, token)
-          .then((updatedCard) => {
-            setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
-            );
-          })
-          .catch(console.error);
-  };
 
   useEffect(() => {
     const token = getToken();
@@ -174,9 +150,7 @@ function App() {
     <CurrentUserContext.Provider
       value={{ currentUser, isLoggedIn, setIsLoggedIn, setCurrentUser }}
     >
-      <ClothingItemContext.Provider
-        value={{ handleCardLike, clothingItems, setClothingItems }}
-      >
+      <ClothingItemContext.Provider value={{ clothingItems, setClothingItems }}>
         <CurrentTemperatureUnitContext.Provider
           value={{ currentTemperatureUnit, handleToggleSwitchChange }}
         >
