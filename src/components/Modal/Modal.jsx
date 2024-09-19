@@ -1,28 +1,31 @@
 import { useEffect } from "react";
+import "./Modal.css";
 
-export const Modal = ({ name, onClose, children }) => {
+export const Modal = ({ children, title, isOpen, handleClose }) => {
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") {
-        onClose();
+        handleClose();
       }
     };
-
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [onClose]);
+  }, [handleClose]);
 
   const handleOverlay = (e) => {
     if (e.target === e.currentTarget) {
-      onClose();
+      handleClose();
     }
   };
-
   return (
-    <div className={`modal modal_type_${name}`} onClick={handleOverlay}>
-      <div className="modal__container">
+    <div
+      className={`modal ${isOpen && "modal_opened"}`}
+      onClick={handleOverlay}
+    >
+      <div className="modal__content">
+        <h2 className="modal__title">{title}</h2>
         {children}
-        <button className="modal__close" type="button" onClick={onClose} />
+        <button className="modal__close" type="button" onClick={handleClose} />
       </div>
     </div>
   );

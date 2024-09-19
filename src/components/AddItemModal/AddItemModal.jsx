@@ -1,17 +1,11 @@
 import React, { useContext } from "react";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { Modal } from "../Modal/Modal";
 import { useForm } from "../../hooks/useForm";
 import { addClothingItem } from "../../utils/api.js";
 import { getToken } from "../../utils/token.js";
 import { ClothingItemContext } from "../../contexts/ClothingItemContext.js";
 
-function AddItemModal({
-  isOpen,
-  handleClose,
-  handleOutsideClick,
-  buttonText,
-  handleSubmit,
-}) {
+function AddItemModal({ isOpen, handleClose, buttonText, handleSubmit }) {
   const initialFormValues = {
     name: "",
     imageUrl: "",
@@ -34,13 +28,7 @@ function AddItemModal({
   };
 
   return (
-    <ModalWithForm
-      buttonText=""
-      title="New garment"
-      isOpen={isOpen}
-      handleClose={handleClose}
-      handleOutsideClick={handleOutsideClick}
-    >
+    <Modal title="New garment" isOpen={isOpen} handleClose={handleClose}>
       <form
         className="modal__form"
         id="add-item-modal__form"
@@ -133,7 +121,7 @@ function AddItemModal({
           {buttonText}
         </button>
       </form>
-    </ModalWithForm>
+    </Modal>
   );
 }
 

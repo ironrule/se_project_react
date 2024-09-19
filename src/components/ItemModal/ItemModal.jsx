@@ -2,19 +2,18 @@ import "./ItemModal.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useContext } from "react";
 
-function ItemModal({
-  activeModal,
-  handleClose,
-  card,
-  handleDeleteClick,
-  handleOutsideClick,
-}) {
-  const { currentUser, isLoggedIn } = useContext(CurrentUserContext);
+function ItemModal({ activeModal, handleClose, card, handleDeleteClick }) {
+  const { currentUser } = useContext(CurrentUserContext);
   const isOwner = card.owner === currentUser._id;
+  const handleOverlay = (e) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
+  };
   return (
     <div
-      className={`modal ${activeModal === "preview" && "modal_opened"}`}
-      onClick={handleOutsideClick}
+      className={`modal ${activeModal === "item-modal" && "modal_opened"}`}
+      onClick={handleOverlay}
     >
       <div className="modal__content_type_image">
         <button

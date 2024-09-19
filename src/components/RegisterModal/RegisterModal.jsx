@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { Modal } from "../Modal/Modal";
 import { useForm } from "../../hooks/useForm";
 import "./RegisterModal.css";
 import * as auth from "../../utils/auth";
@@ -59,7 +59,7 @@ const RegisterModal = ({
   };
 
   return (
-    <ModalWithForm
+    <Modal
       title="Sign up"
       isOpen={isOpen}
       handleClose={handleClose}
@@ -160,7 +160,7 @@ const RegisterModal = ({
           </button>
         </div>
       </form>
-    </ModalWithForm>
+    </Modal>
   );
 };
 

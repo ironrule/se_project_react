@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { Modal } from "../Modal/Modal";
 import { useForm } from "../../hooks/useForm";
 import "./EditProfileModal.css";
 import { getToken } from "../../utils/token.js";
@@ -8,7 +8,6 @@ import { editUserInfo } from "../../utils/api";
 const EditProfileModal = ({
   isOpen,
   handleClose,
-  handleOutsideClick,
   buttonText,
   handleSubmit,
 }) => {
@@ -37,11 +36,10 @@ const EditProfileModal = ({
   }
 
   return (
-    <ModalWithForm
+    <Modal
       title="Change profile data"
       isOpen={isOpen}
       handleClose={handleClose}
-      handleOutsideClick={handleOutsideClick}
     >
       <form
         className="modal__form"
@@ -96,7 +94,7 @@ const EditProfileModal = ({
           </button>
         </div>
       </form>
-    </ModalWithForm>
+    </Modal>
   );
 };
 

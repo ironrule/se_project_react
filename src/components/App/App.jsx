@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header.jsx";
@@ -79,32 +79,8 @@ function App() {
     setActiveModal("edit-profile-modal");
   };
 
-  const ref = useRef(null);
-  const handleOutsideClick = useCallback(
-    (e) => {
-      if (e.target.classList.contains("modal_opened")) {
-        closeActiveModal();
-      }
-    },
-    [closeActiveModal, ref]
-  );
-
-  useEffect(() => {
-    if (!activeModal) return;
-    const handleEscClose = (e) => {
-      if (e.key === "Escape") {
-        closeActiveModal();
-      }
-    };
-    document.addEventListener("keydown", handleEscClose);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscClose);
-    };
-  }, [activeModal]);
-
   const handleCardClick = (card) => {
-    setActiveModal("preview");
+    setActiveModal("item-modal");
     setSelectedCard(card);
   };
 
@@ -192,7 +168,6 @@ function App() {
             <AddItemModal
               isOpen={activeModal === "add-garment"}
               handleClose={closeActiveModal}
-              handleOutsideClick={handleOutsideClick}
               buttonText={isLoading ? "Adding garment..." : "Add garment"}
               handleSubmit={handleSubmit}
             />
@@ -201,7 +176,6 @@ function App() {
               card={selectedCard}
               handleClose={closeActiveModal}
               handleDeleteClick={handleDeleteClick}
-              handleOutsideClick={handleOutsideClick}
             />
             <DeleteConfirmationModal
               card={selectedCard}
@@ -209,12 +183,10 @@ function App() {
               isOpen={activeModal === "deleteConfirmation"}
               buttonText={isLoading ? "Deleting..." : "Yes, delete item"}
               handleSubmit={handleSubmit}
-              handleOutsideClick={handleOutsideClick}
             />
             <LoginModal
               isOpen={activeModal === "login-modal"}
               handleClose={closeActiveModal}
-              handleOutsideClick={handleOutsideClick}
               onRegisterClick={handleRegisterClick}
               buttonText={isLoading ? "Logging In..." : "Log In"}
               handleSubmit={handleSubmit}
@@ -222,7 +194,6 @@ function App() {
             <RegisterModal
               isOpen={activeModal === "register-modal"}
               handleClose={closeActiveModal}
-              handleOutsideClick={handleOutsideClick}
               onLoginClick={handleLoginClick}
               buttonText={isLoading ? "Wait..." : "Next"}
               handleSubmit={handleSubmit}
@@ -230,7 +201,6 @@ function App() {
             <EditProfileModal
               isOpen={activeModal === "edit-profile-modal"}
               handleClose={closeActiveModal}
-              handleOutsideClick={handleOutsideClick}
               buttonText={isLoading ? "Wait..." : "Save changes"}
               handleSubmit={handleSubmit}
             />

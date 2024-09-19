@@ -50,11 +50,3 @@
   display: flex;
   justify-content: space-between;
 }
-
-.item__delete-button_visible {
-  visibility: visible;
-}
-
-.item__delete-button_hidden {
-  visibility: hidden;
-}

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { Modal } from "../Modal/Modal.jsx";
 import { useForm } from "../../hooks/useForm";
 import "./LoginModal.css";
 import * as auth from "../../utils/auth";
@@ -12,7 +12,6 @@ const LoginModal = ({
   handleSubmit,
   isOpen,
   handleClose,
-  handleOutsideClick,
   onRegisterClick,
   buttonText,
 }) => {
@@ -53,12 +52,7 @@ const LoginModal = ({
   };
 
   return (
-    <ModalWithForm
-      title="Log In"
-      isOpen={isOpen}
-      handleClose={handleClose}
-      handleOutsideClick={handleOutsideClick}
-    >
+    <Modal title="Log In" isOpen={isOpen} handleClose={handleClose}>
       <form
         className="modal__form"
         id="login-modal__form"
@@ -116,7 +110,7 @@ const LoginModal = ({
           </button>
         </div>
       </form>
-    </ModalWithForm>
+    </Modal>
   );
 };
 
