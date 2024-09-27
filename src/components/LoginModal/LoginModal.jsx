@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../Modal/Modal.jsx";
 import { useForm } from "../../hooks/useForm";
@@ -24,6 +24,12 @@ const LoginModal = ({
 
   const { formValues, handleFormChange, setFormValues } =
     useForm(initialFormValues);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormValues(initialFormValues);
+    }
+  }, [isOpen]);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();

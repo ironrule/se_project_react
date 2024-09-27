@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../Modal/Modal";
 import { useForm } from "../../hooks/useForm";
@@ -26,6 +26,12 @@ const RegisterModal = ({
 
   const { formValues, handleFormChange, setFormValues } =
     useForm(initialFormValues);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormValues(initialFormValues);
+    }
+  }, [isOpen]);
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
