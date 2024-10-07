@@ -27,11 +27,9 @@ This project is being developed using HTML, CSS, Javascript, and React. Vite is 
 
 The site is currently hosted on GitHub Pages at the following address:
 
-[Link to the GitHub Pages site](https://ironrule.github.io/se_project_react/)
+[Link to the site hosted on Google Cloud](https://wtwr.flylnk.com)
 
 [Link to the Back-end project that is related to this project](https://github.com/ironrule/se_project_express)
-
-Note: Not all functionality has been deployed to GitHub Pages due to JSON server implementation. This will be updated in a future phase.
 
 **Figma Design**
 
@@ -45,4 +43,4 @@ Below is the link to the Figma design for this project:
 
 **Future Plans**
 
-Future plans for this site are to connect the back-end server for remaining parts of this project to be fully functional. Additional information will be added as the project progresses.
+Future plans for this project include a full redesign and editing functionality to match a project that I have in mind to create. More info to be added as I begin this new project.
